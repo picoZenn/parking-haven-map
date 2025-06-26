@@ -2,13 +2,20 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { MapPin, Menu, X } from 'lucide-react';
+import { MapPin, Menu, X, LogOut } from 'lucide-react';
+import { useAuth } from '@/hooks/useAuth';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { user, logout, isAuthenticated } = useAuth();
   
   const isActive = (path: string) => location.pathname === path;
+
+  const handleLogout = () => {
+    logout();
+    setIsOpen(false);
+  };
 
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
@@ -55,12 +62,31 @@ const Navbar = () => {
             >
               Dashboard
             </Link>
-            <Link to="/login">
-              <Button variant="outline" className="mr-2">Login</Button>
-            </Link>
-            <Link to="/signup">
-              <Button className="bg-blue-600 hover:bg-blue-700">Sign Up</Button>
-            </Link>
+            
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-600">
+                  Welcome, {user?.email}
+                </span>
+                <Button 
+                  variant="outline" 
+                  onClick={handleLogout}
+                  className="flex items-center space-x-1"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>Logout</span>
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="outline" className="mr-2">Login</Button>
+                </Link>
+                <Link to="/signup">
+                  <Button className="bg-blue-600 hover:bg-blue-700">Sign Up</Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -82,14 +108,29 @@ const Navbar = () => {
               <Link to="/find-parking" className="block px-3 py-2 text-gray-700 hover:text-blue-600">Find Parking</Link>
               <Link to="/list-space" className="block px-3 py-2 text-gray-700 hover:text-blue-600">List Your Space</Link>
               <Link to="/dashboard" className="block px-3 py-2 text-gray-700 hover:text-blue-600">Dashboard</Link>
-              <div className="flex space-x-2 px-3 py-2">
-                <Link to="/login" className="flex-1">
-                  <Button variant="outline" className="w-full">Login</Button>
-                </Link>
-                <Link to="/signup" className="flex-1">
-                  <Button className="w-full bg-blue-600 hover:bg-blue-700">Sign Up</Button>
-                </Link>
-              </div>
+              
+              {isAuthenticated ? (
+                <div className="px-3 py-2">
+                  <p className="text-sm text-gray-600 mb-2">Welcome, {user?.email}</p>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleLogout}
+                    className="w-full flex items-center justify-center space-x-1"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    <span>Logout</span>
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex space-x-2 px-3 py-2">
+                  <Link to="/login" className="flex-1">
+                    <Button variant="outline" className="w-full">Login</Button>
+                  </Link>
+                  <Link to="/signup" className="flex-1">
+                    <Button className="w-full bg-blue-600 hover:bg-blue-700">Sign Up</Button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}

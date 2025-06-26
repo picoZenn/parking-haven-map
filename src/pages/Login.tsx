@@ -8,13 +8,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { toast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
 import { MapPin, User, Car } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('renter');
+  const [userType, setUserType] = useState<'renter' | 'owner'>('renter');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,14 +32,12 @@ const Login = () => {
     }
 
     // Mock successful login
+    login(email, userType);
+    
     toast({
       title: "Login Successful!",
       description: `Welcome back! Redirecting to your ${userType} dashboard...`,
     });
-    
-    // Store mock user data
-    localStorage.setItem('userType', userType);
-    localStorage.setItem('userEmail', email);
     
     // Redirect to dashboard after a short delay
     setTimeout(() => {
@@ -64,7 +64,7 @@ const Login = () => {
               {/* User Type Selection */}
               <div>
                 <Label className="text-base font-medium">I am a:</Label>
-                <RadioGroup value={userType} onValueChange={setUserType} className="mt-2">
+                <RadioGroup value={userType} onValueChange={(value) => setUserType(value as 'renter' | 'owner')} className="mt-2">
                   <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
                     <RadioGroupItem value="renter" id="renter" />
                     <Car className="h-5 w-5 text-blue-600" />

@@ -19,7 +19,7 @@ const Index = () => {
             <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in">
               Find Perfect Parking,
               <br />
-              <span className="text-yellow-300">Anywhere, Anytime</span>
+              <span className="text-gray-300">Anywhere, Anytime</span>
             </h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto text-blue-100">
               Connect parking space owners with drivers looking for convenient, secure parking spots in your neighborhood.
@@ -68,7 +68,7 @@ const Index = () => {
                   <div className="bg-blue-100 p-4 rounded-full mb-4">
                     <MapPin className="h-8 w-8 text-blue-600" />
                   </div>
-                  <h4 className="text-lg font-semibold mb-2">2. Select</h4>
+                  <h4 className="text-lg font-semibond mb-2">2. Select</h4>
                   <p className="text-gray-600">Choose the perfect spot based on price, location, and amenities</p>
                 </div>
                 <div className="flex flex-col items-center">
@@ -138,7 +138,7 @@ const Index = () => {
             
             <Card className="hover:shadow-lg transition-shadow">
               <CardContent className="p-6 text-center">
-                <DollarSign className="h-12 w-12 text-purple-600 mx-auto mb-4" />
+                <DollarSign className="h-12 w-12 text-gray-600 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold mb-3">Best Prices</h3>
                 <p className="text-gray-600">Save money with competitive rates from local parking space owners.</p>
               </CardContent>
